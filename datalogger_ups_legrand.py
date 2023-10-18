@@ -143,10 +143,21 @@ def mysql_connection(db_host, db_user, db_password, db_database):
             print(err)
     return(sql_cnx)
 
-inizializzazione_dati()
-identificativo = seleziona_identificativo()
-inizializzazione_parametri(identificativo)
+def datalogger_ups():
+    inizializzazione_dati()
+    identificativo = seleziona_identificativo()
+    inizializzazione_parametri(identificativo)
 
-indirizzi_holding_registers, numero_word_holding_registers = obtain_registers_informations()
-while True:   
-    data_extraction_routine(identificativo, indirizzi_holding_registers, numero_word_holding_registers)
+    indirizzi_holding_registers, numero_word_holding_registers = obtain_registers_informations()
+    while True:   
+        data_extraction_routine(identificativo, indirizzi_holding_registers, numero_word_holding_registers)
+    return
+
+while True:
+    try:
+        datalogger_ups()
+    except Exception as error:
+        print(datetime.now())
+        print('Errore :')
+        sys.exit(str(error))
+    break
